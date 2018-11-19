@@ -23,7 +23,7 @@
     "image",
     "cache"
   ],
-  "author": "William Candillon <wcandillon@gmail.com>",
+  "author": "zcgit <https://github.com/zcgit>",
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/zcgit/rn-img-cache/issues"
