@@ -21,7 +21,7 @@ npm install rn-img-cache
 ### usages
 
 ```js
-import {CachedImage}            from "./rn-img-cache";
+import {CachedImage} from "rn-img-cache";
 <CachedImage style={[{
         height: 100,
         width: 100,
@@ -55,7 +55,7 @@ npm install rn-img-cache
 直接下载引用即可
 
 ```js
-import {CachedImage}            from "./rn-img-cache";
+import {CachedImage}  from "rn-img-cache";
 <CachedImage style={[{
         height: 100,
         width: 100,
