@@ -11,7 +11,7 @@
 
 [点击查看原图](https://img.pconline.com.cn/images/upload/upc/tx/photoblog/1210/01/c1/14222204_14222204_1349049772031.jpg")
 
-<img width=1062px height=702px src="https://img.pconline.com.cn/images/upload/upc/tx/photoblog/1210/01/c1/14222204_14222204_1349049772031.jpg"/>
+<img width=500 height=400 src="./test/img.png"/>
 
 ### 使用方式
 
