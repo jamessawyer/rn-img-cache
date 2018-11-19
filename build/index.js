@@ -75,7 +75,7 @@ export class ImageCache {
         if (!cache.downloading) {
             const realPath = this.getPath(uri, cache.immutable)
             const path = realPath + "_tmp";
-            console.log(">>>>>rn-img-cache downloading [" + uri + "] to path [" + path + "]");
+            // console.log(">>>>>rn-img-cache downloading [" + uri + "] to path [" + path + "]");
             cache.downloading = true;
             const method = source.method ? source.method : "GET";
             cache.task = RNFetchBlob.config({ path }).fetch(method, uri, source.headers);
