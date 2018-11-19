@@ -14,7 +14,3 @@ import {CachedImage}            from "./rn-img-cache";
 	}]}
 source={{uri: "https://img.jpg"}}/>
 ```
-
-
-
-**MIT Licensed**
