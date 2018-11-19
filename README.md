@@ -5,9 +5,9 @@
 ### 使用方式
 
 直接下载引用即可
-import {CachedImage}            from "./rn-img-cache";
 
 ```js
+import {CachedImage}            from "./rn-img-cache";
 <CachedImage style={[{
         height: 100,
         width: 100,
