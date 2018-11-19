@@ -46,8 +46,8 @@ source={{uri: "https://img.jpg"}}/>
 
 ### 安装
 
-react-native install rn-img-cache
-or
+react-native install rn-img-cache<br>
+or<br>
 npm install rn-img-cache
 
 ### 使用方式
