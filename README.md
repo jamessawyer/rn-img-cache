@@ -5,11 +5,11 @@
 
 #### 不完整显示
 
-<img width=500 height=400 src="./test/test.jpg"/>
+<img width=500 height=400 src="./test/test.png"/>
 
 #### 实际图片
 
-[显示图片](https://img.pconline.com.cn/images/upload/upc/tx/photoblog/1210/01/c1/14222204_14222204_1349049772031.jpg")
+<img width=500 height=400 src="https://img.pconline.com.cn/images/upload/upc/tx/photoblog/1210/01/c1/14222204_14222204_1349049772031.jpg"/>
 
 ### 使用方式
 
