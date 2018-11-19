@@ -1,5 +1,5 @@
 ## rn-img-cache
-First, this project is improved from [react-native-img-cache](https://github.com/wcandillon/react-native-img-cache). Honestly, [react-native-img-cache](https://github.com/wcandillon/react-native-img-cache) is very easy to use, but I didn't found it verify whether the file  correct in my real worikng situation, so sometimes we could see a part of a image(kill the app process when downloading the image).So I modified the code to create a temp file when doanloading, and made it right after the downloading was done. It's just so easy.
+First, this project is improved from [react-native-img-cache](https://github.com/wcandillon/react-native-img-cache). Honestly, [react-native-img-cache](https://github.com/wcandillon/react-native-img-cache) is very easy to use, but I didn't found it verify whether the file  correct in my real worikng situation, so sometimes we just could see a part of a image(kill the app process when downloading the image).So I modified the code to create a temp file when downloading, and made it right after the downloading was done. It's just so easy.
 ### showcases
 
 #### incomplete image
