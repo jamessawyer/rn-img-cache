@@ -1,6 +1,6 @@
 {
   "name": "rn-img-cache",
-  "version": "2018111901",
+  "version": "1.0.0",
   "description": "CachedImage component for React native",
   "main": "build/index.js",
   "typings": "build/index.d.ts",

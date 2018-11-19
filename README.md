@@ -12,6 +12,11 @@ First, this project is improved from [react-native-img-cache](https://github.com
 
 <img width=500 height=400 src="./test/img.png"/>
 
+### install
+
+react-native install rn-img-cache
+or
+npm install rn-img-cache
 
 ### usages
 
@@ -38,6 +43,12 @@ source={{uri: "https://img.jpg"}}/>
 [点击查看原图](https://img.pconline.com.cn/images/upload/upc/tx/photoblog/1210/01/c1/14222204_14222204_1349049772031.jpg")
 
 <img width=500 height=400 src="./test/img.png"/>
+
+### 安装
+
+react-native install rn-img-cache
+or
+npm install rn-img-cache
 
 ### 使用方式
 
