@@ -14,8 +14,8 @@ First, this project is improved from [react-native-img-cache](https://github.com
 
 ### install
 
-react-native install rn-img-cache
-or
+react-native install rn-img-cache<br>
+or<br>
 npm install rn-img-cache
 
 ### usages
