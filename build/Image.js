@@ -5,6 +5,7 @@ import {Image as RNImage, Animated, StyleSheet, View, Platform} from "react-nati
 import { type ____ImageStyleProp_Internal as ImageStyle } from "react-native/Libraries/StyleSheet/StyleSheetTypes";
 import type {ImageSourcePropType} from "react-native/Libraries/Image/ImageSourcePropType";
 
+import RNFetchBlob from "rn-fetch-blob";
 
 import CacheManager, {type DownloadOptions} from "./CacheManager";
 
@@ -34,7 +35,7 @@ export default class Image extends React.Component<ImageProps, ImageState> {
 
     state = {
         uri: undefined,
-        intensity: new Animated.Value(100)
+        intensity: new Animated.Value(1)
     };
 
     async load({uri, options = {}}: ImageProps): Promise<void> {
@@ -51,14 +52,14 @@ export default class Image extends React.Component<ImageProps, ImageState> {
     }
 
     componentDidUpdate(prevProps: ImageProps, prevState: ImageState) {
-        const {preview, transitionDuration} = this.props;
+        const {preview, defaultSource, transitionDuration} = this.props;
         const {uri, intensity} = this.state;
         if (this.props.uri !== prevProps.uri) {
             this.load(this.props);
-        } else if (uri && preview && prevState.uri === undefined) {
+        } else if (uri && (preview || defaultSource) && prevState.uri === undefined) {
             Animated.timing(intensity, {
                 duration: transitionDuration,
-                toValue: 0,
+                toValue: 100,
                 useNativeDriver: Platform.OS === "android"
             }).start();
         }
@@ -76,7 +77,7 @@ export default class Image extends React.Component<ImageProps, ImageState> {
         const isImageReady = !!uri;
         const opacity = intensity.interpolate({
             inputRange: [0, 100],
-            outputRange: [0, 0.5]
+            outputRange: [0, 1]
         });
         const computedStyle = [
             StyleSheet.absoluteFill,
@@ -86,51 +87,41 @@ export default class Image extends React.Component<ImageProps, ImageState> {
                 (result, value, key) => Object.assign(result, { [key]: (value - (style.borderWidth || 0)) })
             )
         ];
-        return (
-            <View {...{style}}>
-                {
-                    (hasDefaultSource && !hasPreview && !isImageReady) && (
-                        <RNImage
+        console.log("------>isImageReady=" + isImageReady + ",hasPreview=" + hasPreview + ",uri=" + uri);
+        let defaultImage = null;
+        if (hasDefaultSource && !hasPreview && !isImageReady) {
+        	defaultImage = <RNImage
+                            resizeMode="center"
                             source={defaultSource}
-                            style={computedStyle}
+                            style={[...style]}
                             {...otherProps}
                         />
-                    )
-                }
-                {
-                    hasPreview && (
-                        <RNImage
+        }
+        if (hasPreview && !isImageReady) {
+        	defaultImage = <RNImage
+                            resizeMode="center"
                             source={preview}
-                            resizeMode="cover"
-                            style={computedStyle}
-                            blurRadius={Platform.OS === "android" ? 0.5 : 0}
-                        />
-                    )
-                }
-                {
-                    isImageReady && (
-                        <RNImage
-                            source={{ uri }}
-                            style={computedStyle}
+                            style={[...style]}
                             {...otherProps}
                         />
-                    )
-                }
-                {
-                    hasPreview && Platform.OS === "ios" && (
-                        <Animated.View
-                            style={[computedStyle, { backgroundColor: tint === "dark" ? black : white, opacity }]}
-                        />
-                    )
-                }
-                {
-                    hasPreview && Platform.OS === "android" && (
-                        <Animated.View
-                            style={[computedStyle, { backgroundColor: tint === "dark" ? black : white, opacity }]}
-                        />
-                    )
-                }
-            </View>
+        }
+        if (isImageReady) {
+        	defaultImage = <Animated.View
+                style={[...style, {backgroundColor: 'red'}, { opacity }]}
+                >
+            	<RNImage
+                    source={{uri}}
+                    style={[...style,computedStyle]}
+                    onError={(err)=>{
+                        console.warn("file can not load , because " + err.nativeEvent.error + "\n, the rn-img-cache will delete it automaticly")
+                        RNFetchBlob.fs.unlink(uri);
+                    }}
+                    {...otherProps}
+                />
+            </Animated.View>
+        }
+        return (
+        		defaultImage
         );
     }
 }

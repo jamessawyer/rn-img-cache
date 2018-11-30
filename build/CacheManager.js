@@ -5,11 +5,8 @@ const SHA1 = require("crypto-js/sha1");
 const s4 = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
 const BASE_DIR = RNFetchBlob.fs.dirs.CacheDir + "/rn-img-cache";
 
-
-
 export type DownloadOptions = {
-  md5?: boolean,
-  method?: { [string]: string },
+  method?: string,
   headers?: { [string]: string }
 };
 
@@ -36,24 +33,36 @@ export class CacheEntry {
 		//the RNFetchBlob.config need a 'path'
 		let path = tmpPath;
         //fetch the img from remote
-		let task = await RNFetchBlob.config({ path }).fetch(method, uri, options.headers).then(() => {
-			downloaded = true;
-        }).catch(() => {
+		let task = await RNFetchBlob.config({ path }).fetch(method, uri, options.headers).then((rsp) => {
+			let respInfo = rsp.respInfo
+			// console.log("\n\nrespInfo=\n" + JSON.stringify(respInfo) + "\n\n");
+			if (respInfo && respInfo.status == 200) {
+	            downloaded = true;
+	        }else{
+        		// console.warn("CacheManager download-->" + JSON.stringify(respInfo))
+	        	RNFetchBlob.fs.unlink(tmpPath);
+	        }
+        }).catch((err) => {
+        	console.warn("CacheManager download-->" +err)
             // Parts of the image may have been downloaded already, (see https://github.com/wkh237/react-native-fetch-blob/issues/331)
             RNFetchBlob.fs.unlink(tmpPath);
         });
-        console.log("fetching moving [" + tmpPath + "] to [" + realPath + "]");
-        await RNFetchBlob.fs.mv(tmpPath, realPath).then((ret)=>{
-                isSuccess = ret;
-                if (ret) {
-                }else{
-                    console.warn("CacheManager-->move file [" + tmpPath + "] to [" + realPath + "] failed!");
-                    RNFetchBlob.fs.unlink(tmpPath);
-                }
-            }).catch((err)=>{
-                console.warn("CacheManager-->" + err);
-                RNFetchBlob.fs.unlink(tmpPath);
-            });
+        if (downloaded == true) {
+	        await RNFetchBlob.fs.mv(tmpPath, realPath).then((ret)=>{
+	                isSuccess = ret;
+	                if (ret) {
+	                }else{
+	                    console.warn("CacheManager-->move file [" + tmpPath + "] to [" + realPath + "] failed!");
+	                    RNFetchBlob.fs.unlink(tmpPath);
+	                }
+	            }).catch((err)=>{
+	                console.warn("CacheManager-->" + err);
+	                RNFetchBlob.fs.unlink(tmpPath);
+	            });
+        }else{
+        	console.log("[" + uri + "] not downloaded!");
+        	return null;
+        }
         return realPath;
     }
 }
@@ -72,10 +81,10 @@ export default class CacheManager {
     static async clearCache(): Promise<void> {
     	await RNFetchBlob.fs.unlink(BASE_DIR);
     }
-    static async getCacheSize(): Promise<number> {
-        const size = await RNFetchBlob.fs.stat(BASE_DIR);
-        return size;
-    }
+    // static async getCacheSize(): Promise<number> {
+    //     const size = await RNFetchBlob.fs.stat(BASE_DIR);
+    //     return size;
+    // }
 }
 
 const getCacheEntry = async (uri: string): Promise<{ exists: boolean, path: string, tmpPath: string }> => {
