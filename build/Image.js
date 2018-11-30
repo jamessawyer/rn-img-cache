@@ -56,7 +56,7 @@ export default class Image extends React.Component<ImageProps, ImageState> {
         const {uri, intensity} = this.state;
         if (this.props.uri !== prevProps.uri) {
             this.load(this.props);
-        } else if (uri && (preview || defaultSource) && prevState.uri === undefined) {
+        } else if (uri && prevState.uri === undefined) {
             Animated.timing(intensity, {
                 duration: transitionDuration,
                 toValue: 100,

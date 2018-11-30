@@ -13,6 +13,10 @@ First, this project is improved from [react-native-img-cache](https://github.com
 <br>
 <img width=500 height=400 src="./test/img.png"/>
 
+### fade anim
+
+<img width=500 height=400 src="./test/show.gif"/>
+
 ## Installation
 
 ### rn-fetch-blob
@@ -31,7 +35,7 @@ import {CachedImage} from "rn-img-cache";
 const preview = { uri: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==" };
 //const preview = require("xxx");
 const uri = "https://img.pconline.com.cn/images/upload/upc/tx/photoblog/1210/01/c1/14222204_14222204_1349049772031.jpg";
-//the http request config
+//the http request config , it's optional
 let options={
     method:'GET',
     headers:{"Content-Type":"image/jpg"}
@@ -44,6 +48,15 @@ transitionDuration={4000} //the fadeIn anim duration
 {...{preview,options, uri}}/>
 ```
 - if both <b>defaultSource</b> and <b>preview</b> all defined , use <b>preview</b> finally.
+
+- preview, we can use require or uri
+
+- uri, the remote image file
+
+- options(optional),  when requesting the remote , we can set the http method&headers by this param
+
+- transitionDuration(optional,default 300ms), the fadeIn anim duration (ms)
+
 ---
 
 首先，该项目是在[react-native-img-cache](https://github.com/wcandillon/react-native-img-cache)的基础上修改的。[react-native-img-cache](https://github.com/wcandillon/react-native-img-cache)很好用，但是在实际使用过程中我发现它采取的下载机制没有对下载的内容做一个完整性的校验，这就导致图片可能只下载了一半(比如中途杀进程)而无法显示完整。我本来打算着手根据http的content-length来判断下下载内容是否完整，但是发现它内部的[RNFetchBlob](https://github.com/joltup/rn-fetch-blob)并没有抛出回调，我打算从js端着手，思路很简单，就是在下载的时候给文件一个临时名称，当下载完成后再修改回来，这样唯一的坏处就是之前下了一部分的不完整图片浪费掉了，但是我觉得这个影响完全可以忽略。
@@ -56,7 +69,12 @@ transitionDuration={4000} //the fadeIn anim duration
 ### 实际图片
 
 [查看原图](https://img.pconline.com.cn/images/upload/upc/tx/photoblog/1210/01/c1/14222204_14222204_1349049772031.jpg)
+<br>
 <img width=500 height=400 src="./test/img.png"/>
+
+### 渐显效果
+
+<img width=500 height=400 src="./test/show.gif"/>
 
 ## 安装
 
@@ -88,3 +106,11 @@ transitionDuration={4000} //下载完成后图片渐变显示的时长(淡入效
 ```
 
 - 如果<b>defaultSource</b>和<b>preview</b>都定义了，则优先选择<b>preview</b>
+
+- preview, 可以设置本地资源(require)和网络资源(uri)
+
+- uri, 网络图片的地址
+
+- options(可选的),  请求网络图片的时候，可以设置请求头信息
+
+- transitionDuration(可选的,默认 300毫秒), 渐显动画的时长，单位毫秒
