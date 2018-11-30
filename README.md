@@ -10,7 +10,7 @@ First, this project is improved from [react-native-img-cache](https://github.com
 ### real origin image
 
 [show the origin image](https://img.pconline.com.cn/images/upload/upc/tx/photoblog/1210/01/c1/14222204_14222204_1349049772031.jpg)
-
+<br>
 <img width=500 height=400 src="./test/img.png"/>
 
 ## Installation
