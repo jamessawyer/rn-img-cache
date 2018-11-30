@@ -26,11 +26,17 @@ import {CachedImage} from "rn-img-cache";
 const preview = { uri: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==" };
 //const preview = require("xxx");
 const uri = "https://img.pconline.com.cn/images/upload/upc/tx/photoblog/1210/01/c1/14222204_14222204_1349049772031.jpg";
+//the http request config
+let options={
+    method:'GET',
+    headers:{"Content-Type":"image/jpg"}
+}
 <CachedImage style={[{
         height: 100,
         width: 100,
 }]}
-{...{preview, uri}}/>
+transitionDuration={4000} //the fadeIn anim duration
+{...{preview,options, uri}}/>
 ```
 - if both <b>defaultSource</b> and <b>preview</b> all defined , use <b>preview</b> finally.
 ---
@@ -58,14 +64,20 @@ npm install rn-img-cache
 
 ```js
 import {CachedImage} from "rn-img-cache";
-//the defaultImg
+//默认图片
 const preview = { uri: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==" };
 //const preview = require("xxx");
 const uri = "https://img.pconline.com.cn/images/upload/upc/tx/photoblog/1210/01/c1/14222204_14222204_1349049772031.jpg";
+//下载图片的请求头设置
+let options={
+    method:'GET',
+    headers:{"Content-Type":"image/jpg"}
+}
 <CachedImage style={[{
         height: 100,
         width: 100,
 }]}
-{...{preview, uri}}/>
+transitionDuration={4000} //下载完成后图片渐变显示的时长(淡入效果)
+{...{preview,options, uri}}/>
 ```
 - 如果<b>defaultSource</b>和<b>preview</b>都定义了，则优先选择<b>preview</b>
