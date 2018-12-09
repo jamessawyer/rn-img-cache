@@ -57,11 +57,19 @@ export default class Image extends React.Component<ImageProps, ImageState> {
         if (this.props.uri !== prevProps.uri) {
             this.load(this.props);
         } else if (uri && prevState.uri === undefined) {
+            if (this.props.onLoadEnded) {
+                this.props.onLoadEnded(true);
+            }
             Animated.timing(intensity, {
                 duration: transitionDuration,
                 toValue: 100,
                 useNativeDriver: Platform.OS === "android"
             }).start();
+        } else if (uri == null) {
+            //the img download faild
+            if (this.props.onLoadEnded) {
+                this.props.onLoadEnded(false);
+            }
         }
     }
 

@@ -28,7 +28,6 @@ export class CacheEntry {
             return realPath;
         }
         const method = options.method ? options.method : "GET";
-		let isSuccess = false;
 		let downloaded = false
 		//the RNFetchBlob.config need a 'path'
 		let path = tmpPath;
@@ -49,7 +48,6 @@ export class CacheEntry {
         });
         if (downloaded == true) {
 	        await RNFetchBlob.fs.mv(tmpPath, realPath).then((ret)=>{
-	                isSuccess = ret;
 	                if (ret) {
 	                }else{
 	                    console.warn("CacheManager-->move file [" + tmpPath + "] to [" + realPath + "] failed!");

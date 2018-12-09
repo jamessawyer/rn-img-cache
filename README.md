@@ -45,6 +45,9 @@ let options={
         width: 100,
 }]}
 transitionDuration={4000} //the fadeIn anim duration
+onLoadEnded={(flag) => {
+    console.log('whether the downloading successful:' + flag);
+}}
 {...{preview,options, uri}}/>
 ```
 - if both <b>defaultSource</b> and <b>preview</b> all defined , use <b>preview</b> finally.
@@ -56,6 +59,8 @@ transitionDuration={4000} //the fadeIn anim duration
 - options(optional),  when requesting the remote , we can set the http method&headers by this param
 
 - transitionDuration(optional,default 300ms), the fadeIn anim duration (ms)
+
+- onLoadEnded(optional), the callback of downloading status, be careful, it's not 'onLoadEnd'!
 
 ---
 
@@ -102,6 +107,9 @@ let options={
         width: 100,
 }]}
 transitionDuration={4000} //下载完成后图片渐变显示的时长(淡入效果)
+onLoadEnded={(flag) => {
+    console.log('图片是否下载完成:' + flag);
+}}
 {...{preview,options, uri}}/>
 ```
 
@@ -114,3 +122,5 @@ transitionDuration={4000} //下载完成后图片渐变显示的时长(淡入效
 - options(可选的),  请求网络图片的时候，可以设置请求头信息
 
 - transitionDuration(可选的,默认 300毫秒), 渐显动画的时长，单位毫秒
+
+- onLoadEnded(可选的), 判断图片是否加载完成，注意，它不是'onLoadEnd'
