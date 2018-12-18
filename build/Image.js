@@ -26,7 +26,7 @@ type ImageState = {
     isImageBackground: false
 };
 
-export default class Image extends React.Component<ImageProps, ImageState> {
+export default class CachedImage extends React.Component<ImageProps, ImageState> {
 
     mounted = true;
 
