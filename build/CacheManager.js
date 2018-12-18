@@ -79,6 +79,14 @@ export default class CacheManager {
     static async clearCache(): Promise<void> {
     	await RNFetchBlob.fs.unlink(BASE_DIR);
     }
+
+    /**
+     * 清除指定路径对应的文件
+     * @param {string} path 文件所在的路径
+     */
+    static async clearPath(path: string): Promise<void> {
+        await RNFetchBlob.fs.unlink(path);
+    }
     // static async getCacheSize(): Promise<number> {
     //     const size = await RNFetchBlob.fs.stat(BASE_DIR);
     //     return size;
