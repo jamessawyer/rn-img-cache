@@ -1,7 +1,7 @@
 
 import * as _ from "lodash";
 import * as React from "react";
-import {Image, Animated, StyleSheet, View, Platform, ImageBackground} from "react-native";
+import {Image as RNImage, Animated, StyleSheet, View, Platform} from "react-native";
 import { type ____ImageStyleProp_Internal as ImageStyle } from "react-native/Libraries/StyleSheet/StyleSheetTypes";
 import type {ImageSourcePropType} from "react-native/Libraries/Image/ImageSourcePropType";
 
@@ -16,17 +16,15 @@ type ImageProps = {
     options?: DownloadOptions,
     uri: string,
     transitionDuration?: number,
-    tint?: "dark" | "light",
-    isImageBackground?: boolean // 是否使用Imagebackground组件
+    tint?: "dark" | "light"
 };
 
 type ImageState = {
     uri: ?string,
-    intensity: Animated.Value,
-    isImageBackground: false
+    intensity: Animated.Value
 };
 
-export default class CachedImage extends React.Component<ImageProps, ImageState> {
+export default class Image extends React.Component<ImageProps, ImageState> {
 
     mounted = true;
 
@@ -80,12 +78,11 @@ export default class CachedImage extends React.Component<ImageProps, ImageState>
     }
 
     render(): React.Node {
-        const {preview, style, defaultSource, tint, isImageBackground, children, ...otherProps} = this.props;
+        const {preview, style, defaultSource, tint, ...otherProps} = this.props;
         const {uri, intensity} = this.state;
         const hasDefaultSource = !!defaultSource;
         const hasPreview = !!preview;
         const isImageReady = !!uri;
-        const RNImage = isImageBackground ? ImageBackground : Image;
         const opacity = intensity.interpolate({
             inputRange: [0, 100],
             outputRange: [0, 1]
@@ -101,16 +98,7 @@ export default class CachedImage extends React.Component<ImageProps, ImageState>
         console.log("------>isImageReady=" + isImageReady + ",hasPreview=" + hasPreview + ",uri=" + uri);
         let defaultImage = null;
         if (hasDefaultSource && !hasPreview && !isImageReady) {
-            defaultImage = isImageBackground ? 
-                <RNImage
-                    resizeMode="center"
-                    source={defaultSource}
-                    style={[...style]}
-                    {...otherProps}
-                >
-                    {children}
-                </RNImage>
-                : <RNImage
+            defaultImage = <RNImage
                     resizeMode="center"
                     source={defaultSource}
                     style={[...style]}
@@ -118,14 +106,7 @@ export default class CachedImage extends React.Component<ImageProps, ImageState>
                 />
         }
         if (hasPreview && !isImageReady) {
-            defaultImage = isImageBackground ? 
-            <RNImage
-                resizeMode="center"
-                source={preview}
-                style={[...style]}
-                {...otherProps}
-            >{children}</RNImage> :
-            <RNImage
+            defaultImage = <RNImage
                 resizeMode="center"
                 source={preview}
                 style={[...style]}
@@ -136,26 +117,15 @@ export default class CachedImage extends React.Component<ImageProps, ImageState>
         	defaultImage = <Animated.View
                 style={[...style, {backgroundColor: 'red'}, { opacity }]}
                 >
-            	{isImageBackground ?
-                    (<RNImage
-                        source={{uri}}
-                        style={[...style,computedStyle]}
-                        onError={(err)=>{
-                            console.warn("file can not load , because " + err.nativeEvent.error + "\n, the rn-img-cache will delete it automaticly")
-                            RNFetchBlob.fs.unlink(uri);
-                        }}
-                        {...otherProps}
-                    >{children}</RNImage>) :
-                    (<RNImage
-                        source={{uri}}
-                        style={[...style,computedStyle]}
-                        onError={(err)=>{
-                            console.warn("file can not load , because " + err.nativeEvent.error + "\n, the rn-img-cache will delete it automaticly")
-                            RNFetchBlob.fs.unlink(uri);
-                        }}
-                        {...otherProps}
-                    />)
-                }
+            	<RNImage
+                    source={{uri}}
+                    style={[...style,computedStyle]}
+                    onError={(err)=>{
+                        console.warn("file can not load , because " + err.nativeEvent.error + "\n, the rn-img-cache will delete it automaticly")
+                        RNFetchBlob.fs.unlink(uri);
+                    }}
+                    {...otherProps}
+                />
             </Animated.View>
         }
         return (
